@@ -1,0 +1,21 @@
+----------LESSON 9 匯總數據-------------
+--聚集函數（aggregate function）
+--解釋：對某些行運行的函數，計算並返回一個值
+--只是需要計算後的值，實際表提供的值不須返回，浪費時間與處理資源
+--以下為五種聚集函數
+
+--1. AVG() 函數
+--只能用於單個列，列名也必須作為函數參數。
+--要獲得多個列的平均值，須使用多個AVG()函數
+--會忽略列值為null的行
+
+--可用來返回所有列
+SELECT AVG(prod_price) AS avg_price
+FROM products;
+
+--返回特定列或行的平均值
+SELECT AVG(prod_price) AS avg_price
+FROM products
+WHERE vend_id = 'DLL01';
+
+--2. COUNT() 函數
