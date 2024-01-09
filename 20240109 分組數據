@@ -1,0 +1,5 @@
+
+----------LESSON 10 分組數據-------------
+SELECT COUNT(*) AS num_prods
+FROM products
+WHERE vend_id = 'DLL01';
