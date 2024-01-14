@@ -1,4 +1,3 @@
-
 ----------LESSON 10 分組數據-------------
 --匯總表內容的子集。
 --涉及兩個新的SELECT語句子句：GROUP BY子句、HAVING子句
@@ -52,6 +51,17 @@ FROM orderItems
 GROUP BY order_num
 HAVING COUNT(*) >= 3;
 
+SELECT order_num, COUNT(*) AS items
+FROM orderItems
+GROUP BY order_num
+HAVING COUNT(*) >= 3
+ORDER BY items, order_num;
 
 
-
+-- SELECT 子句順序
+--SELECT    要返回的列或表達式
+--FROM      從中檢索數據的表
+--WHERE     行級過濾
+--GROUP BY  分組說明
+--HAVING    組級過濾
+--ORDER BY  輸出排序順序
