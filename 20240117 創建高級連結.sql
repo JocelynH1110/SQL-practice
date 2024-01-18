@@ -86,3 +86,12 @@ ON     customers.cust_id = orders.cust_id;
 SELECT customers.cust_id, orders.order_num
 FROM   customers RIGHT OUTER JOIN orders
 ON     orders.cust_id = customers.cust_id;
+
+--全外聯結（full outer join）
+--檢索兩個表中的所有行並關聯那些可以關聯的行。
+--與左右聯結包含一個表的不關聯的行不同。
+--全外聯結包含兩個表的不關聯的行。
+
+SELECT customers.cust_id, orders.order_num
+FROM   orders FULL OUTER JOIN customers 
+ON     orders.cust_id = customers.cust_id;
