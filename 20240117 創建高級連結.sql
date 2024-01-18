@@ -62,3 +62,27 @@ AND   OI.order_num = O.order_num
 AND   prod_id = 'RGAN01';
 
 --至今為止建立的每個內聯結都是自然聯結，很可能永遠都不會用到不是自然聯結的內聯結
+
+--2.3 外聯結（outer join）
+--許多聯結將一個表中的行和另一個表中的行相關聯，但有時會包含沒有關聯行的那些行，這種聯結稱為外聯結
+
+--Note 語法差別：
+--用來創建外聯結的語法在不同 SQL 實現中可能稍有不同。
+
+--以下為一個簡單的內聯結。檢索所有顧客及其訂單：
+SELECT customers.cust_id, orders.order_num
+FROM   customers INNER JOIN orders
+ON     customers.cust_id = orders.cust_id;
+
+--外聯結語法類似。要檢索包括沒有訂單顧客在內的所有顧客，例子為下
+SELECT customers.cust_id, orders.order_num
+FROM   customers LEFT OUTER JOIN orders
+ON     customers.cust_id = orders.cust_id;
+
+--在使用 OUTER JOIN 語法時，必須使用 RIGHT 或 LEFT 關鍵字指定包括其所有行的表。
+--以上例子 LEFT 指從 FROM 子句左邊的表（customers表）中選擇所有行
+
+--以下為從右邊表中選擇所有行： 
+SELECT customers.cust_id, orders.order_num
+FROM   customers RIGHT OUTER JOIN orders
+ON     orders.cust_id = customers.cust_id;
