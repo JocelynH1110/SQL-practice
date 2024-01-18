@@ -48,3 +48,17 @@ AND c2.cust_contact = 'Jim Jones';
 --Tip 用自聯結而不用子查詢：
 --自聯結通常作為外部語句，用來替代從相同表中檢索數據使用子查詢語句。
 --雖然最終結果相同，但許多DBMS 處理聯結比處理子查詢快。
+
+--2.2 自然聯結（natural join）
+--無論何時對表進行聯結，應該至少有一列不只出現在一個表中（被聯結的列）
+--標準的聯結（lesson 12 的內聯結）返回所有數據,相同的列甚至多次出現
+--自然聯結排除多次出現，使每一列只返回一次
+--要求只能選擇那些唯一的列，一般通過對一個表使用通配符（SELECT *），而對其他表的列使用明確的子集來完成。以下為例子：
+SELECT C.*, O.order_num, O.order_date,
+       OI.prod_id, OI.quantity, OI.item_price
+FROM customers AS C, orders AS O, orderItems AS OI
+WHERE C.cust_id = O.cust_id
+AND   OI.order_num = O.order_num
+AND   prod_id = 'RGAN01';
+
+--至今為止建立的每個內聯結都是自然聯結，很可能永遠都不會用到不是自然聯結的內聯結
