@@ -95,3 +95,19 @@ ON     orders.cust_id = customers.cust_id;
 SELECT customers.cust_id, orders.order_num
 FROM   orders FULL OUTER JOIN customers 
 ON     orders.cust_id = customers.cust_id;
+
+
+--3. 使用帶聚集函數的聯結
+--檢索所有顧客和每個顧客所下的訂單數，下面的代碼使用 COUNT()函數完成此工作：
+SELECT customers.cust_id,
+       COUNT(orders.order_num) AS num_ord
+FROM customers INNER JOIN orders
+ON   customers.cust_id = orders.cust_id
+GROUP BY customers.cust_id;
+
+--以下例子使用左聯結來包含所有顧客，甚至包含那些沒有任何訂單的顧客，有一筆 0 訂單
+SELECT customers.cust_id,
+       COUNT(orders.order_num) AS num_ord
+FROM customers LEFT OUTER JOIN orders
+ON   customers.cust_id = orders.cust_id
+GROUP BY customers.cust_id;
