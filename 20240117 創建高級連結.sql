@@ -111,3 +111,10 @@ SELECT customers.cust_id,
 FROM customers LEFT OUTER JOIN orders
 ON   customers.cust_id = orders.cust_id
 GROUP BY customers.cust_id;
+
+--使用聯結和聯結條件
+--注意所使用的聯結類型。一般使用內聯結，但使用外聯結也有效
+--確切的聯結語法，應該查看具體文檔，看相對應的 DBMS 支持何種語法（大多數 DBMS 使用這兩課中描述的某種語法）
+--應該總是提供聯結條件，否則會得出笛卡爾積
+--使用正確的聯結條件，否則會返回不正確的數據
+--在一個聯結中可以包含多個表，甚至可以對每個聯結採用不同的聯結類型。這樣做事合法的，一般也很有用，但應該先分別測試每個聯結後再一起測試，使故障排除更為簡單。
