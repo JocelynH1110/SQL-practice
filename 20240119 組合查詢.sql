@@ -44,3 +44,31 @@ SELECT cust_name, cust_contact, cust_email
 FROM customers
 WHERE cust_state IN ('IL','IN','MI')
 OR    cust_name = 'Fun4All';
+
+--UNION 的限制
+--使用 UNION 組合 SELECT 語句的數目，SQL 沒有標準限制。但還是可以參考一下 DBMS 文檔，看看否有所限制。
+
+--2.2 UNION 規則
+--進行組合時的規則：
+--必須由兩條或兩條以上的 SELECT 語句組成，語句之間用關鍵字 UNION 分隔。
+--UNION 中每個查詢必須包含相同的列、表達式或聚集函數（各列不需要以相同次序列出）。
+--列數據類型必須兼容：類型不必完全相同，但必須是 DBMS 可以隱含轉換的類型（例、不同的數值類型或不同的日期類型）。
+--遵守以上規則和限制，則可將 UNION 用於任何數據檢索操作。
+
+-- 2.3 包含或取消重複的行
+--UNION 會自動在返回的結果中去除重複的行，與在一個SELECT 語句中使用多個 WHERE 子句條件一樣。
+--若想返回所有匹配的行，可使用 UNION ALL 而不是 UNION 。
+
+--以下為 UNION ALL 例句，DBMS 不取消重複的行
+SELECT cust_name, cust_contact, cust_email
+FROM customers
+WHERE cust_state IN ('IL','IN','MI')
+UNION ALL
+SELECT cust_name, cust_contact, cust_email
+FROM customers
+WHERE cust_name = 'Fun4All';
+
+--UNION 與 WHERE
+--UNION 幾乎總是完成與多個 WHERE 條件相同的工作。
+--UNION ALL 為 UNION 的一種形式，它完成 WHERE 子句完成不了的工作。
+--每個條件匹配行全部出現（包含重複行），就必須使用 UNION ALL。
