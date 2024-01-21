@@ -48,6 +48,9 @@ OR    cust_name = 'Fun4All';
 --UNION 的限制
 --使用 UNION 組合 SELECT 語句的數目，SQL 沒有標準限制。但還是可以參考一下 DBMS 文檔，看看否有所限制。
 
+--性能問題
+--理論上，使用多條 WHERE 子句條件和 UNION 是沒有實際上的差別。因為多數 DBMS 使用內部查詢優化程序，在處理各條 SELECT 語句前組合他們。但實踐中多數查詢優化程序並不能達到理想狀態，所以最好測試這兩種方法，看哪種適合
+
 --2.2 UNION 規則
 --進行組合時的規則：
 --必須由兩條或兩條以上的 SELECT 語句組成，語句之間用關鍵字 UNION 分隔。
@@ -72,3 +75,25 @@ WHERE cust_name = 'Fun4All';
 --UNION 幾乎總是完成與多個 WHERE 條件相同的工作。
 --UNION ALL 為 UNION 的一種形式，它完成 WHERE 子句完成不了的工作。
 --每個條件匹配行全部出現（包含重複行），就必須使用 UNION ALL。
+
+--2.4 組合查詢的結果排序
+--用 UNION 組合查詢時，只能使用一個 ORDER BY 子句，它必須位於最後一個 SELECT語句之後。
+--因為結果集不存在用一種方式排序一部分，又用另一種方式排序另一部份。
+
+SELECT cust_name, cust_contact, cust_email
+FROM customers
+WHERE cust_state IN ('IL','IN','MI')
+UNION ALL
+SELECT cust_name, cust_contact, cust_email
+FROM customers
+WHERE cust_name = 'Fun4All'
+ORDER BY cust_name, cust_contact;
+
+--其他類型的 UNION
+--某些DBMS 還支持另外兩種 UNION：
+--EXCEPT（有時稱 MINUS ）：用來檢索只在地一個表中存在而第二個表中不存在的行。
+--INTERSECT ：用來檢索兩個表中都存在的行。
+--實際上，這些 UNION 很少使用，因為相同結果可以用聯結得到。
+
+--操作多個表
+--本課例子都是用 UNION 來組合針對同一表的多個查詢。實際上 UNION 在需要組合多個表的數據時也很有用，即使有不匹配列名的表，也可將 UNION 與別名組合，檢索一個結果集。
