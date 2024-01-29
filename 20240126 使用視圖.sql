@@ -95,6 +95,7 @@ ORDER BY vend_name;
 
 --例子、把以上例子轉成視圖
 DROP VIEW vendorLocations;
+
 CREATE VIEW vendorLocations AS
 SELECT RTRIM(vend_name) || '(' || RTRIM(vend_country)||')'
        AS vend_title
@@ -104,3 +105,20 @@ ORDER BY vend_name;
 --例子、把上面的視圖列出來
 SELECT *
 FROM vendorLocations;
+
+--2.3 用視圖過濾不想要的數據
+--視圖對於應用普通的 WHERE 子句也很有用。
+
+--例子、定義一個視圖，過濾沒有信箱的顧客：
+DROP VIEW customerEMailList;
+
+CREATE VIEW customerEMailList AS
+SELECT cust_id, cust_name, cust_email
+FROM customers
+WHERE cust_email IS NOT NULL;
+
+SELECT *
+FROM customerEMailList;
+
+--說明：
+--從視圖檢索數據時如果使用了一條 WHERE 子句，則兩組子句（一組在視圖中，一組是傳遞給視圖的）將自動組合。
