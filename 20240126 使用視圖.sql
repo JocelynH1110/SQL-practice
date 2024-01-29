@@ -122,3 +122,20 @@ FROM customerEMailList;
 
 --說明：
 --從視圖檢索數據時如果使用了一條 WHERE 子句，則兩組子句（一組在視圖中，一組是傳遞給視圖的）將自動組合。
+
+--2.4 使用視圖與計算字段
+--例子、檢索某訂單中的物品，計算每種物品的總價格（Lesson 7）
+SELECT prod_id, quantity, item_price, quantity*item_price AS expanded_price
+FROM orderItems
+WHERE order_num = 20008;
+
+--將上面例子轉成視圖
+DROP VIEW orderItemsExpanded;
+CREATE VIEW orderItemsExpanded AS
+SELECT order_num, prod_id, quantity, item_price, quantity*item_price AS expanded_price
+FROM orderItems;
+
+--加入要檢索的訂單：
+SELECT *
+FROM orderItemsExpanded
+WHERE order_num = 20008;
