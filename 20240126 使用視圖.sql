@@ -84,4 +84,23 @@ WHERE prod_id = 'RGAN01';
 --創建不綁定特定數據的視圖，增加其可重複使用度。
 --擴展視圖的範圍不僅能使它被重用，而且可能更有用。這樣做不需要創建和維護多個類似視圖。
 
+--2.2 用視圖重新格式化檢索出的數據
+--視圖另一常見用途是重新格式化檢索出的數據。
 
+--例子、在單個組合計算列中返回供應商名和位置：（Lesson 7 的例子）
+SELECT RTRIM(vend_name) || '(' || RTRIM(vend_country)||')'
+       AS vend_title
+FROM vendors
+ORDER BY vend_name;
+
+--例子、把以上例子轉成視圖
+DROP VIEW vendorLocations;
+CREATE VIEW vendorLocations AS
+SELECT RTRIM(vend_name) || '(' || RTRIM(vend_country)||')'
+       AS vend_title
+FROM vendors
+ORDER BY vend_name;
+
+--例子、把上面的視圖列出來
+SELECT *
+FROM vendorLocations;
