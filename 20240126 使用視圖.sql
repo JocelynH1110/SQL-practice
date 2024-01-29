@@ -47,3 +47,41 @@ AND   prod_id = 'RGAN01';
 --8.有些 DBMS 把視圖作為只讀的查詢。表示可以從視圖檢索數據，但不能將數據寫回底層表。
 --9.有些 DBMS 允許創建這樣的視圖，它不能進行導致行不再屬於視圖的插入或更新。（例如、有個視圖只檢索有信箱的顧客。如果更新某個客戶，刪除他的信箱，將使該客戶不再屬於視圖）這是默認行為，且是允許的，但有的 DBMS 可能會防止這種情況發生。
 
+
+--2. 創建視圖
+--視圖用 CREATE VIEW 語句來創建。與 CREATE TABLE 一樣，只能用於創建不存在的視圖。
+
+--說明：視圖重命名
+--刪除視圖可以用 DROP 語句，語法為 DROP VIEW viewname;。
+--覆蓋或更新視圖，必須先刪掉它再重建。
+
+--2.1 利用視圖簡化複雜的聯結
+--最常見的視圖應用是：隱藏複雜的 SQL ，這通常涉及聯結。
+
+--例子
+DROP VIEW productCustomers;
+
+CREATE VIEW productCustomers AS
+SELECT cust_name, cust_contact, prod_id
+FROM customers, orders, orderItems
+WHERE customers.cust_id = orders.cust_id
+AND orderItems.order_num = orders.order_num;
+
+--分析
+--上面語句創建了一個名為 productCustomers 的視圖，它聯結三個表，返回已訂購了任意商品的所有顧客列表。
+--如果執行 SELECT * FROM productCustomers，將會列出訂購任意產品的顧客。
+
+--例子、檢索訂購產品 RGAN01 的 顧客：
+SELECT cust_name, cust_contact
+FROM productCustomers
+WHERE prod_id = 'RGAN01';
+
+--分析
+--由上面例子可看出視圖極大的簡化了複雜 SQL 語句的使用。
+--利用視圖，可一次行編寫基礎的 SQL ，再根據需要多次使用。
+
+--Tip 創建可重用的視圖
+--創建不綁定特定數據的視圖，增加其可重複使用度。
+--擴展視圖的範圍不僅能使它被重用，而且可能更有用。這樣做不需要創建和維護多個類似視圖。
+
+
