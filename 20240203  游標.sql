@@ -15,3 +15,25 @@
 
 --說明：游標與 Web 的應用
 --游標對基於 Web 的應用（如 ASP、ASP.NET、ColdFusion、PHP、Python、Ruby、JSP 等) 用處不大。雖然游標在客戶端應用和服務器會話期間存在，但這種客戶/服務器模式不適合 Web 應用，因為應用服務器是數據庫客戶端而不是最終客戶。故大多數開發人員都根據自己的需要重新開發相應功能。
+
+
+--2. 使用游標
+--2.1 創建游標
+--使用 DECLARE 語句創建游標（不同的 DBMS 有不同的語句）。
+--DECLARE 命名游標，並定義相應的 SELECT 語句，根據需要帶 WHERE 和其他子句。
+
+--例子、創建一個游標來檢索沒有信箱的所有顧客，作為應用程序的組成部分，幫助操作人員找出空缺的信箱。
+DECLARE CURSOR  custCursor 
+IS
+SELECT * FROM customers
+WHERE cust_email IS NULL;
+
+--分析、
+--DECLARE 語句用來定義和命名游標，這裡為custCursor。
+--定義後，就可以打開他了。
+
+--2.2 使用游標
+--使用 OPEN CURSOR 語句打開游標（大多數 DBMS 語句相同）
+
+OPEN CURSOR custCursor;
+--2.3 關閉游標
